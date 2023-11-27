@@ -19,6 +19,13 @@ public partial class CryptPage : ContentPage
 
     private void Button_Clicked_1(object sender, EventArgs e)
     {
+        string cleTexte = clecrypt.Text;
+        int cle = CalculerValeurNumerique(cleTexte);
+        string texteCrypte = textecrypte.Text;
+        string texteDecrypte = DecrypterTexte(texteCrypte, cle);
+
+        // Afficher ou utiliser le texte décrypté
+        textedecrypte.Text = texteDecrypte;
     }
     public int CalculerValeurNumerique(string texte)
     {
@@ -87,5 +94,59 @@ public partial class CryptPage : ContentPage
         }
         return texteCrypte;
     }
+    public string DecrypterTexte(string texteCrypte, int cle)
+    {
+        string texteDecrypte = "";
+        foreach (char c in texteCrypte)
+        {
+            if (char.IsLetter(c))
+            {
+                // Déterminer si la lettre est en majuscule ou en minuscule
+                bool estMajuscule = char.IsUpper(c);
 
+                // Obtenir la position de la lettre dans l'alphabet (0-25)
+                int positionLettre = char.ToUpper(c) - 'A';
+
+                // Effectuer le décalage inverse avec la clé
+                int positionDecryptee = (positionLettre - cle + 26) % 26; // +26 pour éviter les nombres négatifs
+
+                // Convertir la position décryptée en lettre
+                char lettreDecryptee = (char)(positionDecryptee + 'A');
+
+                // Convertir en minuscule si nécessaire
+                if (!estMajuscule)
+                {
+                    lettreDecryptee = char.ToLower(lettreDecryptee);
+                }
+
+                texteDecrypte += lettreDecryptee;
+            }
+            else
+            {
+                // Si ce n'est pas une lettre, ajouter le caractère tel quel
+                texteDecrypte += c;
+            }
+        }
+        return texteDecrypte;
+    }
+
+    public async Task TenterDecrypterSansCle(string texteCrypte)
+    {
+        string resultats = "";
+        for (int cle = 1; cle <= 25; cle++)
+        {
+            string texteTente = DecrypterTexte(texteCrypte, cle);
+            resultats += $"Clé {cle}: {texteTente}\n";
+            // Accumuler les résultats dans une chaîne
+        }
+
+        // Afficher tous les résultats dans une seule alerte
+        textedecrypte.Text = resultats;
+    }
+
+    private void Button_Clicked_2(object sender, EventArgs e)
+    {
+
+        TenterDecrypterSansCle(textecrypte.Text);
+    }
 }

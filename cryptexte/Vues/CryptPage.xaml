@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="cryptexte.Vues.CryptPage"
              Title="CryptPage">
-    <VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
         <!-- Label pour la clé de cryptage -->
         <Label   
                Text="Clé de cryptage" 
@@ -35,7 +36,7 @@
         <Editor 
                 x:Name="textecrypte"
                 Placeholder="Texte crypté s'affichera ici" 
-                IsReadOnly="True" 
+                IsReadOnly="False" 
                 HorizontalOptions="FillAndExpand" 
                 VerticalOptions="FillAndExpand"/>
 
@@ -48,10 +49,20 @@
 
         <!-- Editor pour afficher le texte décrypté -->
         <Editor 
-                x:Name="textedecrypte"
-                Placeholder="Texte décrypté s'affichera ici" 
-                IsReadOnly="True" 
-                HorizontalOptions="FillAndExpand" 
-                VerticalOptions="FillAndExpand"/>
+    x:Name="textedecrypte"
+    Placeholder="Texte décrypté s'affichera ici" 
+    IsReadOnly="True" 
+    HorizontalOptions="FillAndExpand" 
+    VerticalOptions="FillAndExpand"
+    AutoSize="TextChanges"/>
+
+
+        <!-- Bouton pour déclencher le décryptage -->
+        <Button Text="Décrypter sans cle" 
+        HorizontalOptions="Center" 
+        VerticalOptions="CenterAndExpand"
+        Clicked="Button_Clicked_2"
+        />
     </VerticalStackLayout>
+   </ScrollView>
 </ContentPage>
